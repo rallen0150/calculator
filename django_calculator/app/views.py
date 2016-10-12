@@ -16,11 +16,11 @@ def choice(a, b, c):
 
 
 def index_view(request):
-    number = request.GET
+    answer = request.GET
     if request.GET:
-        num1 = number['number1']
-        num2 = number['number2']
-        operator = number['choice']
+        num1 = answer['number1']
+        num2 = answer['number2']
+        operator = answer['choice']
         print(request.GET)
     else:
         num1=0
