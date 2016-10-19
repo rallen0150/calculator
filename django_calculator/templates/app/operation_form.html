@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Calculator</h1>
+  <form class="form-inline" action="" method="post">
+      <input type="number" step="any" class="form-control" name="num1" placeholder="number 1">
+      <select class="" name="operator">
+          <option value="+"> + </option>
+          <option value="-"> - </option>
+          <option value="*"> * </option>
+          <option value="/"> / </option>
+      </select>
+      <input type="number" step="any" class="form-control" name="num2" placeholder="number 2">
+      <input type="submit" value="Calculate">
+      {% csrf_token %}
+  </form>
+
+  <div class="panel panel-default">
+    <div class="panel-body">
+      {{ operation.last.answer }}
+    </div>
+  </div>
+
+
+{% endblock %}

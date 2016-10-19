@@ -1,37 +1,55 @@
 from django.shortcuts import render
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+from django.views.generic import DetailView
+from django.views.generic.edit import CreateView, UpdateView
+from django.urls import reverse_lazy
 
-# Create your views here.
-def choice(a, b, c):
-    if c == '+':
-        return int(a)+int(b)
-    elif c == '-':
-        return int(a)-int(b)
-    elif c == '*':
-        return int(a)*int(b)
-    elif c == '/':
-        if b == '0':
-            return "Can't Divide by 0"
+from app.models import Operation, Profile
+
+class UserCreateView(CreateView):
+    model = User
+    form_class = UserCreationForm
+    success_url = '/'
+
+class ProfileDetailView(DetailView):
+    model = Profile
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['operation'] = Operation.objects.all()
+        return context
+
+    def get_queryset(self):
+        if self.request.user.profile.is_owner:
+            return Profile.objects.all()
+        return Profile.objects.filter(user=self.request.user)
+
+class CalculatorCreateView(CreateView):
+    model = Operation
+    success_url = '/'
+    fields = ('num1', 'operator', 'num2')
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        context['operation'] = Operation.objects.all()
+        return context
+
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.user = self.request.user
+
+        if instance.operator == '+':
+            instance.answer = instance.num1 + instance.num2
+        elif instance.operator == '-':
+            instance.answer = instance.num1 - instance.num2
+        elif instance.operator == '*':
+            instance.answer = instance.num1 * instance.num2
         else:
-            return int(a)/int(b)
+            instance.answer = instance.num1 / instance.num2
+        return super().form_valid(form)
 
-
-def index_view(request):
-    answer = request.GET
-    if request.GET:
-        num1 = answer['number1']
-        num2 = answer['number2']
-        operator = answer['choice']
-        print(request.GET)
-    else:
-        num1=0
-        num2=0
-        operator='+'
-
-    context = {
-        "number1": num1,
-        "number2": num2,
-        "choice": operator,
-        "math_eq": choice(num1, num2, operator)
-    }
-
-    return render(request, "index.html", context)
+class ProfileUpdateView(UpdateView):
+    model = Profile
+    success_url = reverse_lazy('calc_create_view')
+    fields = ('access_level', )

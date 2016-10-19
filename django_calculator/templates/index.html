@@ -1,11 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
+Welcome <b>{{ request.user }}</b> <br>
 <h1>Calculator</h1>
+
 
   <form class="form-inline" action="" method="get">
     <div class="numbers">
-      <input type="number" class="form-control" name="number1" placeholder="number">
+      <input type="number" step="any" class="form-control" name="number1" placeholder="number">
 
           <select name="choice">
               <option value="+"> + </option>
@@ -14,7 +16,7 @@
               <option value="/"> / </option>
           </select>
 
-      <input type="number" class="form-control" name="number2" placeholder="number">
+      <input type="number" step="any" class="form-control" name="number2" placeholder="number">
 
       <input class="btn btn-default" type="submit" value="Calculate">
     </div>
