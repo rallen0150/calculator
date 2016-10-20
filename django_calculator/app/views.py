@@ -10,7 +10,7 @@ from app.models import Operation, Profile
 class UserCreateView(CreateView):
     model = User
     form_class = UserCreationForm
-    success_url = '/'
+    success_url = reverse_lazy('calc_create_view')
 
 class ProfileDetailView(DetailView):
     model = Profile
@@ -27,7 +27,7 @@ class ProfileDetailView(DetailView):
 
 class CalculatorCreateView(CreateView):
     model = Operation
-    success_url = '/'
+    success_url = reverse_lazy('calc_create_view')
     fields = ('num1', 'operator', 'num2')
 
     def get_context_data(self):
@@ -54,5 +54,7 @@ class CalculatorCreateView(CreateView):
 
 class ProfileUpdateView(UpdateView):
     model = Profile
-    success_url = reverse_lazy('calc_create_view')
     fields = ('access_level', )
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('profile_detail_view', args=[int(self.kwargs['pk'])])

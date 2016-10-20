@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
+{% if not request.user.is_authenticated %}
+  <h2><a href="{% url 'login' %}">Login To Use Calculator</a></h2>
+{% else %}
   <h1>Calculator</h1>
   <div class="row">
       <form class="" action="" method="post">
@@ -41,6 +44,6 @@
       </div>
   </div>
 
-
+{% endif %}
 
 {% endblock %}
