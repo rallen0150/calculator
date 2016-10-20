@@ -21,8 +21,6 @@ class ProfileDetailView(DetailView):
         return context
 
     def get_queryset(self):
-        if self.request.user.profile.is_owner:
-            return Profile.objects.all()
         return Profile.objects.filter(user=self.request.user)
 
 class CalculatorCreateView(CreateView):
