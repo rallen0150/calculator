@@ -12,7 +12,7 @@ class Operation(models.Model):
     num1 = models.FloatField()
     operator = models.CharField(max_length=1, choices=OPERATOR)
     num2 = models.FloatField()
-    answer = models.FloatField()
+    answer = models.CharField(max_length=255)
     user = models.ForeignKey('auth.User')
     created = models.DateTimeField(auto_now=True)
 

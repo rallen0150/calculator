@@ -2,24 +2,45 @@
 
 {% block content %}
   <h1>Calculator</h1>
-  <form class="form-inline" action="" method="post">
-      <input type="number" step="any" class="form-control" name="num1" placeholder="number 1">
-      <select class="" name="operator">
-          <option value="+"> + </option>
-          <option value="-"> - </option>
-          <option value="*"> * </option>
-          <option value="/"> / </option>
-      </select>
-      <input type="number" step="any" class="form-control" name="num2" placeholder="number 2">
-      <input type="submit" value="Calculate">
-      {% csrf_token %}
-  </form>
+  <div class="row">
+      <form class="" action="" method="post">
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+                Enter an Equation
+            </div>
+            <input type="text" name="num1" placeholder="number 1">
 
-  <div class="panel panel-default">
-    <div class="panel-body">
-      {{ operation.last.answer }}
+            <select class="" name="operator">
+                <option value="+"> + </option>
+                <option value="-"> - </option>
+                <option value="*"> * </option>
+                <option value="/"> / </option>
+            </select>
+
+              <input type="text" name="num2" placeholder="number 2">
+              <input type="submit" class="submit" value="Calculate">
+              {% csrf_token %}
+          </div>
+        </div>
+    </form>
     </div>
+    <br>
+    <hr>
+    <br>
+    <div class="row">
+      <div class="col-md-2">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4>Answer:</h4>
+          </div>
+          <div class="panel-body">
+            {{ operation.last.answer }}
+          </div>
+        </div>
+      </div>
   </div>
+
 
 
 {% endblock %}

@@ -46,7 +46,10 @@ class CalculatorCreateView(CreateView):
         elif instance.operator == '*':
             instance.answer = instance.num1 * instance.num2
         else:
-            instance.answer = instance.num1 / instance.num2
+            if instance.num2 == 0:
+                instance.answer = "Can't Divide by 0"
+            else:
+                instance.answer = instance.num1 / instance.num2
         return super().form_valid(form)
 
 class ProfileUpdateView(UpdateView):

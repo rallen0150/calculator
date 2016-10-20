@@ -3,9 +3,11 @@
 {% block content %}
   <a href="{% url 'profile_update_view' object.id %}">Update</a>
   <h1>Hello {{ request.user }}</h1>
-
-  <h3>Access Level: <b>{{ profile.access_level }}</b></h3> <br>
-  <div class="">
+  <div class="access">
+    <h3>Access Level: <b>{{ profile.access_level }}</b></h3> <br>
+  </div>
+  <hr>
+  <div class="profile_info">
     {% for equ in operation %}
       {% if request.user == equ.user or request.user.profile.is_owner %}
           <b>{{ equ.num1 }} {{ equ.operator }} {{ equ.num2 }} = {{ equ.answer }}</b> <br>
