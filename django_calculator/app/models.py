@@ -1,4 +1,7 @@
 from django.db import models
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+from django.contrib.auth.models import User
 
 # Create your models here.
 OPERATOR = [
@@ -29,3 +32,10 @@ class Profile(models.Model):
     @property
     def is_owner(self):
         return self.access_level == 'o'
+
+@receiver(post_save, sender=User)
+def create(**kwargs):
+    created = kwargs['created']
+    instance = kwargs['instance']
+    if created:
+        Profile.objects.create(user=instance)

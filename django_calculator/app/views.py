@@ -23,6 +23,9 @@ class ProfileDetailView(DetailView):
     def get_queryset(self):
         return Profile.objects.filter(user=self.request.user)
 
+    def get_object(self):
+        return Profile.objects.get(user=self.request.user)
+
 class CalculatorCreateView(CreateView):
     model = Operation
     success_url = reverse_lazy('calc_create_view')
